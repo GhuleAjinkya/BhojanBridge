@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>FoodShare - NGO Food Requests</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}" type="logo" />
+    <link rel="stylesheet" href={{url_for('static', filename='css/R-ngo_requests.css')}} />
+    <link rel="stylesheet" href={{url_for('static' , filename='css/sidebar.css')}} />
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src={{url_for('static',filename='img/logo.ico')}} alt="FoodShare">
+                <h1>Food<b style="color: rgb(239, 107, 13);">Connect</b></h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="toggle-btn" id="toggleBtn">X</button>
+            </div>
+            <div>
+            <a href={{url_for('restaurant_dashboard')}} class="menu-item">
+                <div class="icon dashboard-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            </div>
+            <!-- <a href={{url_for('restaurant_alerts')}} class="menu-item">
+                <div class="icon alert-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Notifications</span>
+            </a> -->
+            <a href={{url_for('restaurant_requests')}} class="menu-item active">
+                <div class="icon request-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Requests</span>
+            </a>
+            <a href={{url_for('restaurant.handle_donation')}} class="menu-item">
+                <div class="icon donation-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Donations</span>
+            </a>
+            <a href={{url_for('restaurant_settings')}} class="menu-item">
+                <div class="icon settings-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <main class="main-content">
+            <h1>NGO Food Requests</h1>
+            <p class="subtitle">View and manage incoming food requests from NGOs</p>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="status-filter">
+                        <option>Pending</option>
+                        <option>Accepted</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Food Type</label>
+                    <select id="food-type-filter">
+                        <option>Cooked Meals</option>
+                        <option>Raw Materials</option>
+                        <option>Packaged Food</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Date Range</label>
+                    <input type="date" id="date-filter">
+                </div>
+                <button class="apply-filters">Apply Filters</button>
+            </div>
+
+            <div class="requests-container">
+                {% for request in requests %}
+                <div class="request-card">
+                    <div class="request-header">
+                        <div>
+                            <h3>{{ ngo_name }}</h3>
+                            <span class="request-id">Request ID: {{ request.id }}</span>
+                        </div>
+                        <span class="status {{ request.status|lower }}">{{ request.status }}</span>
+                    </div>
+                    <div class="request-details">
+                        <div class="detail-item">
+                            <i class="material-icons">schedule</i>
+                            <span>Requested: {{ request.created_at }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="material-icons">group</i>
+                            <span>Required for: 200 people</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="material-icons">place</i>
+                            <span>Location: {{ request.location }}</span>
+                        </div>                        
+                    </div>
+                    <div class="requirements">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            <li>Food Type: {{ request.food_category }}</li>
+                            <li>Preferred Time: {{ request.preferred_time }}</li>
+                            <li>Pickup Date:{{ request.pick_up_date }}</li>
+                            <li>Quantity: {{ request.quantity }}</li>
+                        </ul>
+                    </div>
+                    <div class="card-actions">
+                        <button class="primary-btn accept-btn", data-id="{{ request.id }}" >Accept Request</button>
+                        <button class="secondary-btn details-btn" data-id="{{ request.id }}">View Details</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn">Previous</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next</button>
+            </div>
+        </main>
+    </div>
+    <button class="scroll-to-top-button">
+        <svg viewBox="0 0 384 512" class="svgIcon">
+          <path
+            d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+          ></path>
+        </svg>
+      </button>
+    <script type="module" src="{{url_for('static',filename='js/R-ngo_requests.js')}}"></script>
+    <script type="module" src="{{url_for('static',filename='js/N-Settings.js')}}"></script>
+    <script src="{{url_for('static',filename='js/sidebar.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Share NGO</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}" type="logo" />
+    <link rel="stylesheet" href={{url_for('static', filename='css/N-Settings.css')}}>
+    <link rel="stylesheet" href={{url_for('static', filename='css/sidebar.css')}}>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src={{url_for('static', filename='img/logo.ico')}} alt="FoodShare">
+                <h1>Food<b style="background: linear-gradient(to right, #f57c00, #ffcc00); -webkit-background-clip: text; background-clip: text; color: transparent;">Connect</b></h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="toggle-btn" id="toggleBtn">X</button>
+            </div>
+            <div>
+            <a href={{url_for('dashboard')}} class="menu-item ">
+                <div class="icon dashboard-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            </div>
+            <!-- <a href={{url_for('notifications')}} class="menu-item">
+                <div class="icon alert-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Notifications</span>
+            </a> -->
+            <a href={{url_for('ngo.handle_request')}} class="menu-item">
+                <div class="icon request-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Requests</span>
+            </a>
+            <a href={{url_for('Events_schedule')}} class="menu-item">
+                <div class="icon event-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Schedule Events</span>
+            </a>
+            <a href={{url_for('certification')}} class="menu-item">
+                <div class="icon Approval-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Certification</span>
+            </a>
+            <a href="{{url_for('spoilage_form')}}" class="menu-item">
+                <div class="icon prediction-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Spoilage Predictor</span>
+            </a>
+            <a href={{url_for('profile')}} class="menu-item active">
+                <div class="icon settings-icon" onclick="openSidebar()"></div>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="panel">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <img src="https://e7.pngegg.com/pngimages/753/432/png-clipart-user-profile-2018-in-sight-user-conference-expo-business-default-business-angle-service.png" alt="Profile" class="profile-image">
+                <div class="profile-info">
+                    <h1 id= "userName">{{name}}</h1>
+                    <p>Feeding Communities, Reducing Waste</p>
+                    <div class="badges">
+                        <span class="badge ngo">NGO</span>
+                        <span class="badge verified">Verified</span>
+                    </div>
+                </div>
+            </div>
+            <a href="/logout" style="text-decoration: none;">
+            <div class="parent">
+                <button class="location-button" style="grid-column-start: 6;">&nbsp;&nbsp;Logout</button>
+            </div>
+            </a>
+
+            <!-- About Section -->
+            <section class="about-section">
+                <h2>About Us</h2>
+                <div class="action-buttons">
+                    <button class="btn primary" id="editBtn" onclick="toggleEditAboutUs()">Edit</button>
+                    <button class="btn secondary1" id="saveBtn" onclick="saveAboutUs()" style="display: none;">Save</button>
+                    <button class="btn secondary2" id="cancelBtn" onclick="cancelEditAboutUs()" style="display: none;">Cancel</button>
+                </div>
+                <div id="aboutUsContent" contenteditable="false">
+                    Food Share NGO is dedicated to bridging the gap between food waste and hunger. We work with restaurants, supermarkets, and households to collect and distribute surplus food to those in need, making our communities stronger and more sustainable.
+                </div>                
+                <div class="info-items">
+                    <div class="info-item">
+                        <i class="icon">📅</i>
+                        <span>Established in 2020</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="icon">📍</i>
+                        <span id="userLocation">Fetching location...</span>
+                        <a id="locationLink" href="#" target="_blank" class="location-button" style="text-decoration: none;">
+                            Open in Maps
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievements Section -->
+            <section class="achievements-section">
+                <h2>Achievements</h2>
+                <div class="achievement-cards">
+                    <div class="achievement-card">
+                        <div class="achievement-icon success">✓</div>
+                        <div class="achievement-details">
+                            <h3>100,000+ Meals Distributed</h3>
+                            <p>Reached milestone in December 2023</p>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon partners">👥</div>
+                        <div class="achievement-details">
+                            <h3>200+ Partner Organizations</h3>
+                            <p>Growing network of donors and volunteers</p>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon award">🎁</div>
+                        <div class="achievement-details">
+                            <h3>Environmental Impact Award 2023</h3>
+                            <p>Recognition for reducing food waste</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="contact-section">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="btn primary" onclick="messageUs()">Message Us</button>
+                    <button class="btn secondary" onclick="scheduleCall()">Schedule Call</button>
+                </div>
+            </section>
+        </div>
+        </main>
+    </div>
+    <button class="scroll-to-top-button">
+        <svg viewBox="0 0 384 512" class="svgIcon">
+          <path
+            d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+          ></path>
+        </svg>
+      </button>
+    <script src={{url_for('static', filename='js/N-Settings.js')}}></script>
+    <script src={{url_for('static', filename='js/sidebar.js')}}></script>
+</body>
+</html>

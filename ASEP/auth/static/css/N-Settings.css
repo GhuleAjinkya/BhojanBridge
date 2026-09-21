@@ -1,0 +1,365 @@
+:root {
+  --primary-color: #4285f4;
+  --secondary-color: #f8f9fa;
+  --text-color: #333;
+  --sidebar-width: 240px;
+  --border-radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: var(--text-color);
+  background-color: #f0f2f5;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.panel {
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  height: 100%;
+  padding: 20px;
+}
+
+.parent {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.btnlogout {
+  transition: all 0.3s ease-in-out;
+  font-family: "Dosis", sans-serif;
+  grid-column-start: 6;
+}
+
+.btnlogout {
+  width: 100px;
+  height: 30px;
+  border-radius: 50px;
+  background-image: linear-gradient(135deg, #ffb347 0%, #ffcc33 100%);
+  box-shadow: 0 20px 30px -6px rgba(255, 165, 0, 0.5);
+  outline: none;
+  cursor: pointer;
+  border: none;
+  font-size: 15px;
+  color: white;
+  text-decoration: none;
+
+}
+
+.btnlogout:hover {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.btnlogout:active {
+  opacity: 0.5;
+}
+
+@media (max-width: 700px) {
+  .parent {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .btnlogout {
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btnlogout {
+    font-size: 18px;
+    height: 45px;
+  }
+}
+  
+
+/* Main Content Styles */
+.main-content {
+  padding: 2rem;
+  flex: 1;
+}
+
+.profile-header {
+  background: white;
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info h1 {
+  margin-bottom: 0.5rem;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+}
+
+.badge.ngo {
+  background-color: #e8f0fe;
+  color: var(--primary-color);
+}
+
+.badge.verified {
+  background-color: #e6f4ea;
+  color: #137333;
+}
+
+/* About Section */
+.about-section {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.112);
+  margin-right: 375px;
+}
+
+.info-items {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Achievements Section */
+.achievements-section {
+  background: white;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.112);
+  margin-right: 375px;
+  border-radius: var(--border-radius);
+}
+
+.achievement-cards {
+  display: grid;
+
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.achievement-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--secondary-color);
+  border-radius: var(--border-radius);
+}
+
+.achievement-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.achievement-icon.success {
+  background-color: #e6f4ea;
+  color: #137333;
+}
+
+.achievement-icon.partners {
+  background-color: #e8f0fe;
+  color: var(--primary-color);
+}
+
+.achievement-icon.award {
+  background-color: #fce8e6;
+  color: #c5221f;
+}
+
+.achievement-details h3 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.achievement-details p {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Contact Section */
+.contact-section {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(0, 0, 0, 0.112);
+  margin-right: 375px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 6px;
+  justify-content: right;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn.primary {
+  background-color: #034afd13;
+  color: var(--primary-color);
+}
+
+.btn.secondary1 {
+  background-color: #1dd47015;
+  color: #2ba371;
+}
+
+.btn.secondary2 {
+  background-color: #fd030315;
+  color: #ff1100;
+}
+
+#aboutUsContent[contenteditable="true"] {
+  border: 1px solid var(--primary-color);
+  padding: 0.5rem;
+  background-color: var(--secondary-color);
+}
+
+.location-button {
+  cursor: pointer;
+  align-items: center;
+  padding: 0.6em 1em;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  border-radius: 0.5em;
+  font-size: 0.9rem;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  gap: 0.5em;
+  background: linear-gradient(90deg, #ff9100 0%, #ffb347 100%);
+  box-shadow: 0 4px 10px rgba(255, 145, 0, 0.4);
+}
+
+.calculate,.location-button:hover {
+  background: linear-gradient(90deg, #ff9100, #ff6d00);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 145, 0, 0.5);
+}
+
+.location-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 7px rgba(255, 145, 0, 0.3);
+}
+
+.location-button:focus {
+  outline: 3px solid rgba(255, 145, 0, 0.4);
+}
+
+/* scroll to top button  */
+
+.scroll-to-top-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 0px 4px rgba(180, 160, 255, 0.253);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  position: fixed;    /* Added to keep button fixed on screen */
+  bottom: 20px;      /* Added position from bottom */
+  right: 20px;       /* Added position from right */
+  display: none;     /* Hidden by default */
+  z-index: 9999; 
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.scroll-to-top-button:hover {
+  width: 140px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: #f57c00;
+  align-items: center;
+}
+
+.scroll-to-top-button:hover .svgIcon {
+  transition-duration: 0.3s;
+  transform: translateY(-200%);
+}
+
+.scroll-to-top-button::before {
+  position: absolute;
+  bottom: -20px;
+  content: "Back to Top";
+  color: white;
+  font-size: 0px;
+}
+
+.scroll-to-top-button:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  bottom: unset;
+  transition-duration: 0.3s;
+}

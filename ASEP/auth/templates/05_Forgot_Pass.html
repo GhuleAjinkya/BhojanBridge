@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/logo.ico') }}"
+      type="logo"
+    />
+    <title>Forgot Password</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f8f8f8;
+      }
+
+      .container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        margin: 1rem;
+      }
+
+      h2 {
+        color: #ff6b00;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .description {
+        color: #666;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      label {
+        color: #555;
+        font-size: 0.9rem;
+      }
+
+      input {
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #ff6b00;
+      }
+
+      .button {
+        position: relative;
+        border: none;
+        background: transparent;
+        padding: 0;
+        outline: none;
+        cursor: pointer;
+        font-family: sans-serif;
+      }
+
+      /* Shadow layer */
+      .button .shadow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+        transform: translateY(2px);
+        transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+      }
+
+      /* Edge layer */
+      .button .edge {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background: linear-gradient(
+          to left,
+          hsl(25, 94%, 36%) 0%,
+          hsl(36, 100%, 40%) 8%,
+          hsl(36, 100%, 40%) 92%,
+          hsl(25, 94%, 36%) 100%
+        );
+      }
+
+      /* Front layer */
+      .button .front {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 28px;
+        font-size: 1.25rem;
+        color: white;
+        background: linear-gradient(
+          to right,
+          hsl(25, 94%, 46%) 0%,
+          /* Deep orange */ hsl(36, 100%, 50%) 50%,
+          /* Bright orange */ hsl(25, 94%, 46%) 100% /* Deep orange */
+        );
+        border-radius: 8px;
+        transform: translateY(-4px);
+        transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+      }
+
+      /* Hover and active states */
+      .button:hover .shadow {
+        transform: translateY(4px);
+        transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+      }
+
+      .button:hover .front {
+        transform: translateY(-6px);
+        transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+      }
+
+      .button:active .shadow {
+        transform: translateY(1px);
+        transition: transform 34ms;
+      }
+
+      .button:active .front {
+        transform: translateY(-2px);
+        transition: transform 34ms;
+      }
+
+      /* Disable text selection */
+      .button .front span {
+        user-select: none;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #ff6b00;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+        display: inline-block;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .message {
+        text-align: center;
+        margin-top: 1rem;
+        padding: 0.8rem;
+        border-radius: 5px;
+        display: none;
+      }
+
+      .success {
+        background-color: #d4edda; /* Light green background */
+        color: #155724; /* Dark green text */
+        border: 1px solid #c3e6cb; /* Green border */
+      }
+
+      .error {
+        background-color: #f8d7da; /* Light red background */
+        color: #721c24; /* Dark red text */
+        border: 1px solid #f5c6cb; /* Red border */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Forgot Password</h2>
+      <p class="description">
+        Enter your email address and we'll send you a link to reset your
+        password.
+      </p>
+
+      <form
+        id="forgotPasswordForm"
+        action="{{ url_for('forgot_password') }}"
+        method="POST"
+      >
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          {{ form.email(class="form-control", placeholder="Enter your email") }}
+        </div>
+        <!-- From Uiverse.io by zymantas-katinas -->
+        <button class="button" type="submit" id="submit">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <div class="front">
+            <span>Submit</span>
+          </div>
+        </button>
+      </form>
+
+      <div class="loading" style="display: none">
+        <div class="spinner"></div>
+        <p>Sending reset link...</p>
+      </div>
+
+      <div id="message" class="message"></div>
+    </div>
+
+    <script>
+      document
+        .getElementById("forgotPasswordForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          let csrfToken = document.querySelector(
+            "input[name='csrf_token']"
+          ).value;
+          let email = document.getElementById("email").value;
+          const loading = document.querySelector(".loading");
+          const message = document.getElementById("message");
+
+          // Show loader
+          loading.style.display = "block";
+          message.style.display = "none"; // Hide any previous message
+
+          try {
+            const response = await fetch("{{ url_for('forgot_password') }}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": csrfToken,
+              },
+              body: new URLSearchParams({ email: email }),
+            });
+
+            const data = await response.text();
+
+            if (!response.ok) {
+              throw new Error(
+                data || "An error occurred while sending the reset link"
+              );
+            }
+
+            // On success, show green success message
+            message.className = "message success";
+            message.textContent =
+              "Password reset link has been sent to your email!";
+            message.style.display = "block";
+          } catch (error) {
+            // On error, show red error message
+            message.className = "message error";
+            message.textContent =
+              error.message || "Failed to send reset link. Please try again.";
+            message.style.display = "block";
+          } finally {
+            // Hide loader
+            loading.style.display = "none";
+          }
+        });
+    </script>
+  </body>
+</html>

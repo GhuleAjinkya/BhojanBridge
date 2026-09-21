@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Volunteer Profile - Food Connect</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/sidebar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/V-Settings.css') }}"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="main-wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+          <div class="logo">
+            <img src={{url_for('static', filename='img/logo.ico')}}
+            alt="FoodShare">
+            <h1>
+              Food<b
+                style="
+                  background: linear-gradient(to right, #f57c00, #ffcc00);
+                  -webkit-background-clip: text;
+                  background-clip: text;
+                  color: transparent;
+                "
+                >Connect</b
+              >
+            </h1>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="toggle-btn" id="toggleBtn">X</button>
+          </div>
+          <div class="menu">
+            <a href="{{url_for('volunteer_dashboard')}}" class="menu-item">
+              <div class="icon dashboard-icon" onclick="openSidebar()"></div>
+              <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="{{url_for('profile')}}" class="menu-item">
+              <div class="icon settings-icon" onclick="openSidebar()"></div>
+              <span class="menu-text">Profile</span>
+            </a>
+            <a
+              href="{{url_for('volunteer_settings')}}"
+              class="menu-item active"
+            >
+              <div class="icon settings-icon" onclick="openSidebar()"></div>
+              <span class="menu-text">Settings</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+          <div class="profile-container">
+            <!-- Profile Section -->
+            <section class="profile-section">
+              <div class="profile-header">
+                <img
+                  src="{{url_for('static', filename='img/user.png')}}"
+                  alt="User Profile Picture"
+                  class="profile-pic"
+                />
+                <div class="profile-info">
+                  <h2 id="userName">{{name}}</h2>
+                  <p>Active Volunteer | Joined 2025</p>
+                  <p id="user-location">Fetching location...</p>
+                </div>
+                <a href="/logout">
+                  <div class="parent">
+                    <button class="btnlogout">Logout</button>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Stats Cards -->
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <h3>120</h3>
+                  <p>Total Hours</p>
+                </div>
+                <div class="stat-card">
+                  <h3>15</h3>
+                  <p>Events Volunteered</p>
+                </div>
+                <div class="stat-card">
+                  <h3>350</h3>
+                  <p>People Impacted</p>
+                </div>
+                <div class="stat-card">
+                  <h3>4</h3>
+                  <p>Badges Earned</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about-section">
+              <h2 class="section-title">About Me</h2>
+              <div class="about-content">
+                <p id="about-text" contenteditable="false">
+                  Click "Edit" to add something about yourself!
+                </p>
+                <button id="edit-about-btn" class="edit-btn">Edit</button>
+                <button
+                  id="save-about-btn"
+                  class="save-btn"
+                  style="display: none"
+                >
+                  Save
+                </button>
+              </div>
+            </section>
+
+            <!-- Contacts Section -->
+            <section class="contacts-section">
+              <h2 class="section-title">Contact Information</h2>
+              <div class="contacts-content">
+                <p>
+                  <strong>Email:</strong>
+                  <input type="email" id="user-email" value="{{email}}" readonly />
+                </p>
+                <br>
+                <p>
+                  <strong>Phone:</strong>
+                  <input
+                    type="text"
+                    id="user-phone"
+                    value="{{phone}}"
+                    maxlength="10"
+                    pattern="\d*"
+                    readonly
+                  />
+                </p>
+                <br>
+                <p>
+                  <strong>Address:</strong>
+                  <input type="text" id="user-address" value="{{address}}" readonly />
+                </p>
+                <button id="edit-contacts-btn" class="edit-btn">Edit</button>
+                <button id="save-contacts-btn" class="save-btn" style="display: none;">
+                  Save
+                </button>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/V-Settings.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+  </body>
+</html>

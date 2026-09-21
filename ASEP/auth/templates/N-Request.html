@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>FoodShare - Request Donations</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}" type="logo" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/N-Request.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/sidebar.css')}}"/>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar" id="sidebar">
+        <div class="logo">
+          <img src="{{url_for('static', filename='img/logo.ico')}}" alt="FoodShare" />
+          <h1>Food<b style="background: linear-gradient(to right, #f57c00, #ffcc00); -webkit-background-clip: text; background-clip: text; color: transparent;">Connect</b></h1>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button class="toggle-btn" id="toggleBtn">X</button>
+        </div>
+        <div>
+          <a href="{{url_for('dashboard')}}" class="menu-item">
+            <div class="icon dashboard-icon" onclick="openSidebar()"></div>
+            <span class="menu-text">Dashboard</span>
+          </a>
+        </div>
+        <a href="{{url_for('ngo.handle_request')}}" class="menu-item active">
+          <div class="icon request-icon" onclick="openSidebar()"></div>
+          <span class="menu-text">Requests</span>
+        </a>
+        <a href="{{url_for('Events_schedule')}}" class="menu-item">
+          <div class="icon event-icon" onclick="openSidebar()"></div>
+          <span class="menu-text">Schedule Events</span>
+        </a>
+        <a href="{{url_for('certification')}}" class="menu-item">
+          <div class="icon Approval-icon" onclick="openSidebar()"></div>
+          <span class="menu-text">Certification</span>
+        </a>
+        <a href="{{url_for('spoilage_form')}}" class="menu-item ">
+          <div class="icon prediction-icon" onclick="openSidebar()"></div>
+          <span class="menu-text">Spoilage Predictor</span>
+        </a>
+        <a href="{{url_for('profile')}}" class="menu-item">
+          <div class="icon settings-icon" onclick="openSidebar()"></div>
+          <span class="menu-text">Settings</span>
+        </a>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <h1>Request Donations</h1>
+        </div>
+        
+        <div class="content-container">
+          <!-- Left Section - Create Donation Request -->
+          <div class="create-request">
+            <h2>Create Donation Request</h2>
+            <form id="donationForm">
+              <div class="form-group">
+                <label>Food Category</label>
+                <select name="food_category">
+                  <option>Select Category</option>
+                  <option>Vegetables</option>
+                  <option>Fruits</option>
+                  <option>Grains</option>
+                  <option>Dairy</option>
+                  <option>Protein</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Quantity (kg)</label>
+                <input name="quantity" type="text" placeholder="Enter quantity" />
+              </div>
+
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input 
+                  name="phone_number" 
+                  type="tel" 
+                  pattern="[0-9]{10}"
+                  maxlength="10"
+                  minlength="10"
+                  placeholder="Enter 10-digit phone number"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Location</label>
+                <input id="locationInput" name="location" type="text" placeholder="Enter pickup location" required />
+                <ul id="suggestions" class="suggestions-list"></ul>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Pickup Date</label>
+                  <input name="pick_up_date" type="date" id="pickupDate" class="date-input" />
+                </div>
+                <div class="form-group">
+                  <label>Preferred Time</label>
+                  <input name="preferred_time" type="time" id="pickupTime" class="time-input" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Additional Notes</label>
+                <textarea
+                  name="additional_note"
+                  placeholder="Any specific requirements or notes"
+                ></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="submit-btn">Submit Request</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Right Section - Active Requests -->
+          <div class="active-requests">
+            <h2>Active Requests</h2>
+            <div class="request-cards">
+              {% for request in requests %}
+              <div class="request-card pending">
+                <div class="status">{{ request.status }}</div>
+                <h3>{{request.food_category}}</h3>
+                <p>Request ID: {{ request.id }}</p>
+                <p>Pickup: {{ request.pick_up_date }}</p>
+                <p>Time: {{ request.preferred_time }}</p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="scroll-to-top-button">
+      <svg viewBox="0 0 384 512" class="svgIcon">
+        <path
+          d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+        ></path>
+      </svg>
+    </button>
+    <script>
+      // Get the button element
+const scrollToTopButton = document.querySelector('.scroll-to-top-button');
+
+// Show/hide button based on scroll position
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 100) { // Show button after scrolling 100px
+    scrollToTopButton.style.display = 'flex';
+  } else {
+    scrollToTopButton.style.display = 'none';
+  }
+});
+
+// Smooth scroll to top when button is clicked
+scrollToTopButton.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const donationForm = document.getElementById("donationForm");
+    const submitButton = donationForm.querySelector(".submit-btn");
+
+    donationForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      // Disable submit button and show loading state
+      submitButton.disabled = true;
+      submitButton.innerHTML = "Submitting...";
+
+      const formData = {
+        food_category: document.querySelector("select[name='food_category']").value,
+        quantity: document.querySelector("input[name='quantity']").value,
+        pick_up_date: document.querySelector("input[name='pick_up_date']").value,
+        preferred_time: document.querySelector("input[name='preferred_time']").value,
+        phone_number: document.querySelector("input[name='phone_number']").value,
+        location: document.querySelector("input[name='location']").value,
+        additional_note: document.querySelector("textarea[name='additional_note']").value,
+      };
+
+      if (!formData.location || formData.location.trim() === "" || !formData.phone_number || formData.phone_number.length !== 10) {
+        alert("Please enter a valid location and 10-digit phone number.");
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Submit Request";
+        return;
+      }
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/ngo/request", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": document.querySelector('meta[name="csrf-token"]').content,
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`HTTP error! Status: ${response.status} - ${text}`);
+        }
+
+        const data = await response.json();
+        alert(data.message);
+        
+        if (data.status === "success") {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error submitting request: " + error.message);
+      } finally {
+        // Re-enable submit button
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Submit Request";
+      }
+      setInterval(() => {
+        fetch("/ngo/request")
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            document.querySelector(".request-cards").innerHTML = doc.querySelector(".request-cards").innerHTML;
+          })
+          .catch(error => console.error("Error refreshing requests:", error));
+      }, 60000);
+    });
+  });
+</script>
+    <script src={{url_for('static', filename='js/N-Request.js')}}></script>
+    <script src={{url_for('static', filename='js/sidebar.js')}}></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+  </body>
+</html>
